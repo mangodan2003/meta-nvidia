@@ -2,10 +2,7 @@
 # Read this first: https://devtalk.nvidia.com/default/topic/915640/unix-graphics-announcements-and-news/multiple-glx-client-libraries-in-the-nvidia-linux-driver-installer-package/
 
 do_install_append() {
-	mkdir -p ${D}${libdir}/xorg/modules/drivers \
-	         ${D}${libdir}/xorg/modules/extensions \
-             ${D}${libdir}/vdpau
-
+	mkdir -p ${D}${libdir}/vdpau
 
 	cp ${NVIDIA_SRC}/libcuda.so.${PV} ${D}${libdir}/
     ln -sf libcuda.so.${PV} ${D}${libdir}/libcuda.so.1
@@ -13,11 +10,7 @@ do_install_append() {
 
 	cp ${NVIDIA_SRC}/libEGL_nvidia.so.${PV} ${D}${libdir}/
     ln -sf libEGL_nvidia.so.${PV} ${D}${libdir}/libEGL_nvidia.so.0
-
-	cp ${NVIDIA_SRC}/libEGL.so.${PV} ${D}${libdir}/
-    ln -sf libEGL.so.${PV} ${D}${libdir}/libEGL.so.1
-    ln -sf libEGL.so.${PV} ${D}${libdir}/libEGL.so
-    
+  
     cp ${NVIDIA_SRC}/libGLESv1_CM_nvidia.so.${PV} ${D}${libdir}/
     ln -sf libGLESv1_CM_nvidia.so.${PV} ${D}${libdir}/libGLESv1_CM_nvidia.so.1
 
@@ -93,8 +86,8 @@ do_install_append() {
 
 
     # xf86-video-nvidia
-	cp -r ${NVIDIA_SRC}/nvidia_drv.so ${D}${libdir}/xorg/modules/drivers/
-	cp -r ${NVIDIA_SRC}/libglxserver_nvidia.so.${PV} ${D}${libdir}/xorg/modules/extensions/libglxserver_nvidia.so
+	#cp -r ${NVIDIA_SRC}/nvidia_drv.so ${D}${libdir}/xorg/modules/drivers/
+	#cp -r ${NVIDIA_SRC}/libglxserver_nvidia.so.${PV} ${D}${libdir}/xorg/modules/extensions/libglxserver_nvidia.so
 
     # nvidia
 	mkdir -p ${D}${bindir}
@@ -131,9 +124,9 @@ do_install_append() {
 
 do_make_scripts[noexec] = "1"
 
-
 FILES_${PN} += " \
-	${libdir} \
+    ${libdir}/vdpau \
+    ${libdir}/*.so* \
 	${bindir} \
 "
 
@@ -143,7 +136,6 @@ FILES_${PN}-doc += " \
 "
 
 RDEPENDS_${PN} += " \
-	xserver-xorg-module-libwfb \
     libvdpau \
 "
 
