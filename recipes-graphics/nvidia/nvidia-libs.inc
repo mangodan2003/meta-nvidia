@@ -8,7 +8,13 @@ do_install_append() {
 	mkdir -p ${D}${libdir}/nvidia/wine/
     mkdir -p ${D}${datadir}/doc/nvidia/
     mkdir -p ${D}${datadir}/nvidia/
-    
+    mkdir -p ${D}${datadir}/glvnd/egl_vendor.d/
+    mkdir -p ${D}${datadir}/egl/egl_external_platform.d/
+
+    # nvidia-egl
+    cp ${NVIDIA_SRC}/10_nvidia.json ${D}${datadir}/glvnd/egl_vendor.d/
+    cp ${NVIDIA_SRC}/10_nvidia_wayland.json ${D}${datadir}/egl/egl_external_platform.d/
+    cp ${NVIDIA_SRC}/15_nvidia_gbm.json ${D}${datadir}/egl/egl_external_platform.d/
 
     # nvidia lib
 	cp ${NVIDIA_SRC}/libcuda.so.${PV} ${D}${libdir}/
@@ -160,6 +166,8 @@ FILES_${PN} += " \
     ${libdir}/vdpau \
     ${libdir}/*.so* \
 	${bindir} \
+    ${datadir}/glvnd/egl_vendor.d/ \
+    ${datadir}/egl/egl_external_platform.d/ \
 "
 
 FILES_${PN}-doc += " \
