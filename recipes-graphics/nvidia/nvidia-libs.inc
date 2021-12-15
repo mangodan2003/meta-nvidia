@@ -3,10 +3,17 @@
 
 do_install_append() {
 	mkdir -p ${D}${libdir}/vdpau
+	mkdir -p ${D}${libdir}/xorg/modules/extensions/
+	mkdir -p ${D}${libdir}/xorg/modules/drivers
+	mkdir -p ${D}${libdir}/nvidia/wine/
+    mkdir -p ${D}${datadir}/doc/nvidia/
+    mkdir -p ${D}${datadir}/nvidia/
+    
 
+    # nvidia lib
 	cp ${NVIDIA_SRC}/libcuda.so.${PV} ${D}${libdir}/
-    ln -sf libcuda.so.${PV} ${D}${libdir}/libcuda.so.1
     ln -sf libcuda.so.${PV} ${D}${libdir}/libcuda.so
+    ln -sf libcuda.so.${PV} ${D}${libdir}/libcuda.so.1
 
 	cp ${NVIDIA_SRC}/libEGL_nvidia.so.${PV} ${D}${libdir}/
     ln -sf libEGL_nvidia.so.${PV} ${D}${libdir}/libEGL_nvidia.so.0
@@ -20,6 +27,10 @@ do_install_append() {
 	cp ${NVIDIA_SRC}/libGLX_nvidia.so.${PV} ${D}${libdir}/
     ln -sf libGLX_nvidia.so.${PV} ${D}${libdir}/libGLX_nvidia.so.0
 
+    cp ${NVIDIA_SRC}/libglxserver_nvidia.so.${PV} ${D}${libdir}/xorg/modules/extensions/
+    cp ${NVIDIA_SRC}/libglxserver_nvidia.so.${PV} ${D}${libdir}/xorg/modules/extensions/libglxserver_nvidia.so
+
+
 	cp ${NVIDIA_SRC}/libnvcuvid.so.${PV} ${D}${libdir}/
     ln -sf libnvcuvid.so.${PV} ${D}${libdir}/libnvcuvid.so.1
     ln -sf libnvcuvid.so.${PV} ${D}${libdir}/libnvcuvid.so
@@ -28,14 +39,17 @@ do_install_append() {
     ln -sf libnvidia-allocator.so.${PV} ${D}${libdir}/libnvidia-allocator.so.1
     ln -sf libnvidia-allocator.so.${PV} ${D}${libdir}/libnvidia-allocator.so
 
-	cp ${NVIDIA_SRC}/libnvidia-cbl.so.${PV} ${D}${libdir}/
-
 	cp ${NVIDIA_SRC}/libnvidia-cfg.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-cfg.so.${PV} ${D}${libdir}/libnvidia-cfg.so.1
     ln -sf libnvidia-cfg.so.${PV} ${D}${libdir}/libnvidia-cfg.so
 
 	cp ${NVIDIA_SRC}/libnvidia-compiler.so.${PV} ${D}${libdir}/
+
 	cp ${NVIDIA_SRC}/libnvidia-eglcore.so.${PV} ${D}${libdir}/
+
+	cp ${NVIDIA_SRC}/libnvidia-egl-gbm.so.1.1.0 ${D}${libdir}/
+
+	cp ${NVIDIA_SRC}/libnvidia-egl-wayland.so.1.1.9 ${D}${libdir}/
 
 	cp ${NVIDIA_SRC}/libnvidia-encode.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-encode.so.${PV} ${D}${libdir}/libnvidia-encode.so.1
@@ -46,21 +60,23 @@ do_install_append() {
     ln -sf libnvidia-fbc.so.${PV} ${D}${libdir}/libnvidia-fbc.so
 
 	cp ${NVIDIA_SRC}/libnvidia-glcore.so.${PV} ${D}${libdir}/
-	cp ${NVIDIA_SRC}/libnvidia-glsi.so.${PV} ${D}${libdir}/
-	cp ${NVIDIA_SRC}/libnvidia-glvkspirv.so.${PV} ${D}${libdir}/
-	cp ${NVIDIA_SRC}/libnvidia-gtk2.so.${PV} ${D}${libdir}/
-	cp ${NVIDIA_SRC}/libnvidia-gtk3.so.${PV} ${D}${libdir}/
 
-	cp ${NVIDIA_SRC}/libnvidia-ifr.so.${PV} ${D}${libdir}/
-    ln -sf libnvidia-ifr.so.${PV} ${D}${libdir}/libnvidia-ifr.so.1
-    ln -sf libnvidia-ifr.so.${PV} ${D}${libdir}/libnvidia-ifr.so
+	cp ${NVIDIA_SRC}/libnvidia-glsi.so.${PV} ${D}${libdir}/
+
+	cp ${NVIDIA_SRC}/libnvidia-glvkspirv.so.${PV} ${D}${libdir}/
+
+	cp ${NVIDIA_SRC}/libnvidia-gtk2.so.${PV} ${D}${libdir}/
+
+	cp ${NVIDIA_SRC}/libnvidia-gtk3.so.${PV} ${D}${libdir}/
 
 	cp ${NVIDIA_SRC}/libnvidia-ml.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-ml.so.${PV} ${D}${libdir}/libnvidia-ml.so.1
     ln -sf libnvidia-ml.so.${PV} ${D}${libdir}/libnvidia-ml.so
-
+	
 	cp ${NVIDIA_SRC}/libnvidia-ngx.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-ngx.so.${PV} ${D}${libdir}/libnvidia-ngx.so.1
+
+	cp ${NVIDIA_SRC}/libnvidia-nvvm.so.4.0.0 ${D}${libdir}/
 
 	cp ${NVIDIA_SRC}/libnvidia-opencl.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-opencl.so.${PV} ${D}${libdir}/libnvidia-opencl.so.1
@@ -74,57 +90,73 @@ do_install_append() {
     ln -sf libnvidia-ptxjitcompiler.so.${PV} ${D}${libdir}/libnvidia-ptxjitcompiler.so
 
 	cp ${NVIDIA_SRC}/libnvidia-rtcore.so.${PV} ${D}${libdir}/
+    ln -sf libnvidia-rtcore.so.${PV} ${D}${libdir}/libnvidia-rtcore.so.1
+    ln -sf libnvidia-rtcore.so.${PV} ${D}${libdir}/libnvidia-rtcore.so
+
 	cp ${NVIDIA_SRC}/libnvidia-tls.so.${PV} ${D}${libdir}/
+
+    cp ${NVIDIA_SRC}/libnvidia-vulkan-producer.so.${PV} ${D}${libdir}/
+    ln -sf libnvidia-vulkan-producer.so.${PV} ${D}${libdir}/libnvidia-vulkan-producer.so
 	
     cp ${NVIDIA_SRC}/libnvoptix.so.${PV} ${D}${libdir}/
     ln -sf libnvoptix.so.${PV} ${D}${libdir}/libnvoptix.so.1
+
+	cp ${NVIDIA_SRC}/libOpenCL.so.1.0.0 ${D}${libdir}/
 
 	cp ${NVIDIA_SRC}/libvdpau_nvidia.so.${PV} ${D}${libdir}/vdpau/
     ln -sf libvdpau_nvidia.so.${PV} ${D}${libdir}/vdpau/libvdpau_nvidia.so.1
     ln -sf libvdpau_nvidia.so.${PV} ${D}${libdir}/libvdpau_nvidia.so
 
+	cp ${NVIDIA_SRC}/nvidia_drv.so ${D}${libdir}/xorg/modules/drivers/
 
-
-    # xf86-video-nvidia
-	#cp -r ${NVIDIA_SRC}/nvidia_drv.so ${D}${libdir}/xorg/modules/drivers/
-	#cp -r ${NVIDIA_SRC}/libglxserver_nvidia.so.${PV} ${D}${libdir}/xorg/modules/extensions/libglxserver_nvidia.so
-
-    # nvidia
+    # nvidia - bin
 	mkdir -p ${D}${bindir}
-    install -m 755 -D ${NVIDIA_SRC}/nvidia-settings ${D}${bindir}/nvidia-settings
-    install -m 755 -D ${NVIDIA_SRC}/nvidia-debugdump ${D}${bindir}/nvidia-debugdump
-    install -m 755 -D ${NVIDIA_SRC}/nvidia-smi ${D}${bindir}/nvidia-smi
-    install -m 755 -D ${NVIDIA_SRC}/nvidia-modprobe ${D}${bindir}/nvidia-modprobe
-    install -m 755 -D ${NVIDIA_SRC}/nvidia-xconfig ${D}${bindir}/nvidia-xconfig
-    install -m 755 -D ${NVIDIA_SRC}/nvidia-cuda-mps-server ${D}${bindir}/nvidia-cuda-mps-server
-    install -m 755 -D ${NVIDIA_SRC}/nvidia-cuda-mps-control ${D}${bindir}/nvidia-cuda-mps-control
-    install -m 755 -D ${NVIDIA_SRC}/nvidia-persistenced ${D}${bindir}/nvidia-persistenced
-    install -m 755 -D ${NVIDIA_SRC}/nvidia-ngx-updater ${D}${bindir}/nvidia-persistenced
-    install -m 755 -D ${NVIDIA_SRC}/nvidia-installer ${D}${bindir}/nvidia-persistenced
     install -m 755 -D ${NVIDIA_SRC}/nvidia-bug-report.sh ${D}${bindir}/nvidia-persistenced
+    install -m 755 -D ${NVIDIA_SRC}/nvidia-cuda-mps-control ${D}${bindir}/nvidia-cuda-mps-control
+    install -m 755 -D ${NVIDIA_SRC}/nvidia-cuda-mps-server ${D}${bindir}/nvidia-cuda-mps-server
+    install -m 755 -D ${NVIDIA_SRC}/nvidia-debugdump ${D}${bindir}/nvidia-debugdump
+    install -m 755 -D ${NVIDIA_SRC}/nvidia-installer ${D}${bindir}/nvidia-persistenced
+    install -m 755 -D ${NVIDIA_SRC}/nvidia-modprobe ${D}${bindir}/nvidia-modprobe
+    install -m 755 -D ${NVIDIA_SRC}/nvidia-ngx-updater ${D}${bindir}/nvidia-persistenced
+    install -m 755 -D ${NVIDIA_SRC}/nvidia-persistenced ${D}${bindir}/nvidia-persistenced
+    install -m 755 -D ${NVIDIA_SRC}/nvidia-settings ${D}${bindir}/nvidia-settings
+    install -m 755 -D ${NVIDIA_SRC}/nvidia-smi ${D}${bindir}/nvidia-smi
+    install -m 755 -D ${NVIDIA_SRC}/nvidia-xconfig ${D}${bindir}/nvidia-xconfig
 
     # nvidia-doc
-	mkdir -p ${D}${datadir}/doc/nvidia ${D}${mandir}/man1
-    cp -r ${NVIDIA_SRC}/html ${D}${datadir}/doc/nvidia/
-    cp ${NVIDIA_SRC}/NVIDIA_Changelog ${D}${datadir}/doc/nvidia/
-    cp ${NVIDIA_SRC}/README.txt ${D}${datadir}/doc/nvidia/
-    cp ${NVIDIA_SRC}/nvidia-settings.png ${D}${datadir}/doc/nvidia/
-    cp -r ${NVIDIA_SRC}/supported-gpus ${D}${datadir}/doc/nvidia/
-    cp ${NVIDIA_SRC}/nvidia-persistenced-init.tar.bz2 ${D}${datadir}/doc/nvidia/
     cp ${NVIDIA_SRC}/LICENSE ${D}${datadir}/doc/nvidia/
+    cp ${NVIDIA_SRC}/NVIDIA_Changelog ${D}${datadir}/doc/nvidia/
+    cp ${NVIDIA_SRC}/nvidia-persistenced-init.tar.bz2 ${D}${datadir}/doc/nvidia/
+    cp ${NVIDIA_SRC}/nvidia-settings.png ${D}${datadir}/doc/nvidia/
+    cp ${NVIDIA_SRC}/README.txt ${D}${datadir}/doc/nvidia/
+    cp -r ${NVIDIA_SRC}/supported-gpus ${D}${datadir}/doc/nvidia/
 
+    # nvidia-share
+    cp ${NVIDIA_SRC}/nvidia-application-profiles-495.46-key-documentation ${D}${datadir}/nvidia/
+    cp ${NVIDIA_SRC}/nvidia-application-profiles-495.46-rc ${D}${datadir}/nvidia/
 
+    #nvidia-gz
+    install -m 444 -D ${NVIDIA_SRC}/nvidia-cuda-mps-control.1.gz ${D}${mandir}/man1/nvidia-cuda-mps-control.1.gz
+    install -m 444 -D ${NVIDIA_SRC}/nvidia-installer.1.gz ${D}${mandir}/man1/nvidia-installer.1.gz
+    install -m 444 -D ${NVIDIA_SRC}/nvidia-modprobe.1.gz ${D}${mandir}/man1/nvidia-modprobe.1.gz
+    install -m 444 -D ${NVIDIA_SRC}/nvidia-persistenced.1.gz ${D}${mandir}/man1/nvidia-persistenced.1.gz
     install -m 444 -D ${NVIDIA_SRC}/nvidia-settings.1.gz ${D}${mandir}/man1/nvidia-settings.1.gz
     install -m 444 -D ${NVIDIA_SRC}/nvidia-smi.1.gz ${D}${mandir}/man1/nvidia-smi.1.gz
     install -m 444 -D ${NVIDIA_SRC}/nvidia-xconfig.1.gz ${D}${mandir}/man1/nvidia-xconfig.1.gz
-    install -m 444 -D ${NVIDIA_SRC}/nvidia-cuda-mps-control.1.gz ${D}${mandir}/man1/nvidia-cuda-mps-control.1.gz
-    install -m 444 -D ${NVIDIA_SRC}/nvidia-persistenced.1.gz ${D}${mandir}/man1/nvidia-persistenced.1.gz
-    install -m 444 -D ${NVIDIA_SRC}/nvidia-installer.1.gz ${D}${mandir}/man1/nvidia-installer.1.gz
+    
+    #wine
+    cp ${NVIDIA_SRC}/_nvngx.dll ${D}${libdir}/nvidia/wine/
+    cp ${NVIDIA_SRC}/nvngx.dll ${D}${libdir}/nvidia/wine/
+
+    cp -r ${NVIDIA_SRC}/html ${D}${datadir}/doc/nvidia/
 }
 
 do_make_scripts[noexec] = "1"
 
 FILES_${PN} += " \
+    ${libdir}/xorg/modules/extensions/ \
+    ${libdir}/xorg/modules/drivers \
+    ${libdir}/nvidia/wine/ \
     ${libdir}/vdpau \
     ${libdir}/*.so* \
 	${bindir} \
@@ -133,6 +165,7 @@ FILES_${PN} += " \
 FILES_${PN}-doc += " \
 	${mandir} \
 	${datadir}/doc/nvidia \
+    ${datadir}/nvidia/ \
 "
 
 RDEPENDS_${PN} += " \
