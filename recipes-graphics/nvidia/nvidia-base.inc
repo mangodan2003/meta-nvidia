@@ -18,3 +18,5 @@ do_unpack() {
 }
 
 do_make_scripts[noexec] = "1"
+
+RDEPENDS_${PN} += " libglapi"
