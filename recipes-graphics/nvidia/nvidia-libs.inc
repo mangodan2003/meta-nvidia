@@ -2,11 +2,11 @@
 # Read this first: https://devtalk.nvidia.com/default/topic/915640/unix-graphics-announcements-and-news/multiple-glx-client-libraries-in-the-nvidia-linux-driver-installer-package/
 
 do_install_append() {
-	mkdir -p ${D}${libdir}/vdpau
-	mkdir -p ${D}${libdir}/gbm
-	mkdir -p ${D}${libdir}/xorg/modules/extensions/
-	mkdir -p ${D}${libdir}/xorg/modules/drivers
-	mkdir -p ${D}${libdir}/nvidia/wine/
+    mkdir -p ${D}${libdir}/vdpau
+    mkdir -p ${D}${libdir}/gbm
+    mkdir -p ${D}${libdir}/xorg/modules/extensions/
+    mkdir -p ${D}${libdir}/xorg/modules/drivers
+    mkdir -p ${D}${libdir}/nvidia/wine/
     mkdir -p ${D}${datadir}/doc/nvidia/
     mkdir -p ${D}${datadir}/nvidia/
     mkdir -p ${D}${datadir}/glvnd/egl_vendor.d/
@@ -18,20 +18,20 @@ do_install_append() {
     cp ${NVIDIA_SRC}/15_nvidia_gbm.json ${D}${datadir}/egl/egl_external_platform.d/
 
     # nvidia lib
-	cp ${NVIDIA_SRC}/libcuda.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libcuda.so.${PV} ${D}${libdir}/
     ln -sf libcuda.so.${PV} ${D}${libdir}/libcuda.so
     ln -sf libcuda.so.${PV} ${D}${libdir}/libcuda.so.1
 
-	cp ${NVIDIA_SRC}/libEGL_nvidia.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libEGL_nvidia.so.${PV} ${D}${libdir}/
     ln -sf libEGL_nvidia.so.${PV} ${D}${libdir}/libEGL_nvidia.so.0
   
     cp ${NVIDIA_SRC}/libGLESv1_CM_nvidia.so.${PV} ${D}${libdir}/
     ln -sf libGLESv1_CM_nvidia.so.${PV} ${D}${libdir}/libGLESv1_CM_nvidia.so.1
 
-	cp ${NVIDIA_SRC}/libGLESv2_nvidia.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libGLESv2_nvidia.so.${PV} ${D}${libdir}/
     ln -sf libGLESv2_nvidia.so.${PV} ${D}${libdir}/libGLESv2_nvidia.so.2
 
-	cp ${NVIDIA_SRC}/libGLX_nvidia.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libGLX_nvidia.so.${PV} ${D}${libdir}/
     ln -sf libGLX_nvidia.so.${PV} ${D}${libdir}/libGLX_nvidia.so.0
 
     #didn't know how t create the symlink, then just copied
@@ -39,88 +39,88 @@ do_install_append() {
     cp ${NVIDIA_SRC}/libglxserver_nvidia.so.${PV} ${D}${libdir}/xorg/modules/extensions/libglxserver_nvidia.so
     cp ${NVIDIA_SRC}/libnvidia-allocator.so.${PV} ${D}${libdir}/gbm/nvidia-drm_gbm.so
 
-	cp ${NVIDIA_SRC}/libnvcuvid.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvcuvid.so.${PV} ${D}${libdir}/
     ln -sf libnvcuvid.so.${PV} ${D}${libdir}/libnvcuvid.so.1
     ln -sf libnvcuvid.so.${PV} ${D}${libdir}/libnvcuvid.so
 
-	cp ${NVIDIA_SRC}/libnvidia-allocator.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-allocator.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-allocator.so.${PV} ${D}${libdir}/libnvidia-allocator.so.1
     ln -sf libnvidia-allocator.so.${PV} ${D}${libdir}/libnvidia-allocator.so
 
-	cp ${NVIDIA_SRC}/libnvidia-cfg.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-cfg.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-cfg.so.${PV} ${D}${libdir}/libnvidia-cfg.so.1
     ln -sf libnvidia-cfg.so.${PV} ${D}${libdir}/libnvidia-cfg.so
 
-	cp ${NVIDIA_SRC}/libnvidia-compiler.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-compiler.so.${PV} ${D}${libdir}/
 
-	cp ${NVIDIA_SRC}/libnvidia-eglcore.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-eglcore.so.${PV} ${D}${libdir}/
 
-	cp ${NVIDIA_SRC}/libnvidia-egl-gbm.so.1.1.0 ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-egl-gbm.so.1.1.0 ${D}${libdir}/
     ln -sf libnvidia-egl-gbm.so.1.1.0 ${D}${libdir}/libnvidia-egl-gbm.so.1
 
-	cp ${NVIDIA_SRC}/libnvidia-egl-wayland.so.1.1.9 ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-egl-wayland.so.1.1.9 ${D}${libdir}/
     ln -sf libnvidia-egl-wayland.so.1.1.9 ${D}${libdir}/libnvidia-egl-wayland.so.1
 
-	cp ${NVIDIA_SRC}/libnvidia-encode.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-encode.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-encode.so.${PV} ${D}${libdir}/libnvidia-encode.so.1
     ln -sf libnvidia-encode.so.${PV} ${D}${libdir}/libnvidia-encode.so
 
-	cp ${NVIDIA_SRC}/libnvidia-fbc.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-fbc.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-fbc.so.${PV} ${D}${libdir}/libnvidia-fbc.so.1
     ln -sf libnvidia-fbc.so.${PV} ${D}${libdir}/libnvidia-fbc.so
 
-	cp ${NVIDIA_SRC}/libnvidia-glcore.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-glcore.so.${PV} ${D}${libdir}/
 
-	cp ${NVIDIA_SRC}/libnvidia-glsi.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-glsi.so.${PV} ${D}${libdir}/
 
-	cp ${NVIDIA_SRC}/libnvidia-glvkspirv.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-glvkspirv.so.${PV} ${D}${libdir}/
 
-	cp ${NVIDIA_SRC}/libnvidia-gtk2.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-gtk2.so.${PV} ${D}${libdir}/
 
-	cp ${NVIDIA_SRC}/libnvidia-gtk3.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-gtk3.so.${PV} ${D}${libdir}/
 
-	cp ${NVIDIA_SRC}/libnvidia-ml.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-ml.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-ml.so.${PV} ${D}${libdir}/libnvidia-ml.so.1
     ln -sf libnvidia-ml.so.${PV} ${D}${libdir}/libnvidia-ml.so
-	
-	cp ${NVIDIA_SRC}/libnvidia-ngx.so.${PV} ${D}${libdir}/
+    
+    cp ${NVIDIA_SRC}/libnvidia-ngx.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-ngx.so.${PV} ${D}${libdir}/libnvidia-ngx.so.1
 
-	cp ${NVIDIA_SRC}/libnvidia-nvvm.so.4.0.0 ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-nvvm.so.4.0.0 ${D}${libdir}/
 
-	cp ${NVIDIA_SRC}/libnvidia-opencl.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-opencl.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-opencl.so.${PV} ${D}${libdir}/libnvidia-opencl.so.1
 
-	cp ${NVIDIA_SRC}/libnvidia-opticalflow.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-opticalflow.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-opticalflow.so.${PV} ${D}${libdir}/libnvidia-opticalflow.so.1
     ln -sf libnvidia-opticalflow.so.${PV} ${D}${libdir}/libnvidia-opticalflow.so
     
-	cp ${NVIDIA_SRC}/libnvidia-ptxjitcompiler.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-ptxjitcompiler.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-ptxjitcompiler.so.${PV} ${D}${libdir}/libnvidia-ptxjitcompiler.so.1
     ln -sf libnvidia-ptxjitcompiler.so.${PV} ${D}${libdir}/libnvidia-ptxjitcompiler.so
 
-	cp ${NVIDIA_SRC}/libnvidia-rtcore.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-rtcore.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-rtcore.so.${PV} ${D}${libdir}/libnvidia-rtcore.so.1
     ln -sf libnvidia-rtcore.so.${PV} ${D}${libdir}/libnvidia-rtcore.so
 
-	cp ${NVIDIA_SRC}/libnvidia-tls.so.${PV} ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libnvidia-tls.so.${PV} ${D}${libdir}/
 
     cp ${NVIDIA_SRC}/libnvidia-vulkan-producer.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-vulkan-producer.so.${PV} ${D}${libdir}/libnvidia-vulkan-producer.so
-	
+    
     cp ${NVIDIA_SRC}/libnvoptix.so.${PV} ${D}${libdir}/
     ln -sf libnvoptix.so.${PV} ${D}${libdir}/libnvoptix.so.1
 
-	cp ${NVIDIA_SRC}/libOpenCL.so.1.0.0 ${D}${libdir}/
+    cp ${NVIDIA_SRC}/libOpenCL.so.1.0.0 ${D}${libdir}/
 
-	cp ${NVIDIA_SRC}/libvdpau_nvidia.so.${PV} ${D}${libdir}/vdpau/
+    cp ${NVIDIA_SRC}/libvdpau_nvidia.so.${PV} ${D}${libdir}/vdpau/
     ln -sf libvdpau_nvidia.so.${PV} ${D}${libdir}/vdpau/libvdpau_nvidia.so.1
     ln -sf libvdpau_nvidia.so.${PV} ${D}${libdir}/libvdpau_nvidia.so
 
-	cp ${NVIDIA_SRC}/nvidia_drv.so ${D}${libdir}/xorg/modules/drivers/
+    cp ${NVIDIA_SRC}/nvidia_drv.so ${D}${libdir}/xorg/modules/drivers/
 
     # nvidia - bin
-	mkdir -p ${D}${bindir}
+    mkdir -p ${D}${bindir}
     install -m 755 -D ${NVIDIA_SRC}/nvidia-bug-report.sh ${D}${bindir}/nvidia-persistenced
     install -m 755 -D ${NVIDIA_SRC}/nvidia-cuda-mps-control ${D}${bindir}/nvidia-cuda-mps-control
     install -m 755 -D ${NVIDIA_SRC}/nvidia-cuda-mps-server ${D}${bindir}/nvidia-cuda-mps-server
@@ -170,11 +170,11 @@ FILES_${PN} += " \
     ${libdir}/vdpau \
     ${libdir}/gbm \
     ${libdir}/*.so* \
-	${bindir} \ 
+    ${bindir} \ 
     ${datadir}/glvnd/egl_vendor.d/ \
     ${datadir}/egl/egl_external_platform.d/ \
     ${mandir} \
-	${datadir}/doc/nvidia \
+    ${datadir}/doc/nvidia \
     ${datadir}/nvidia/ \
 "
 
