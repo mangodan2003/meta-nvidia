@@ -3,6 +3,7 @@
 
 do_install_append() {
 	mkdir -p ${D}${libdir}/vdpau
+	mkdir -p ${D}${libdir}/gbm
 	mkdir -p ${D}${libdir}/xorg/modules/extensions/
 	mkdir -p ${D}${libdir}/xorg/modules/drivers
 	mkdir -p ${D}${libdir}/nvidia/wine/
@@ -33,9 +34,10 @@ do_install_append() {
 	cp ${NVIDIA_SRC}/libGLX_nvidia.so.${PV} ${D}${libdir}/
     ln -sf libGLX_nvidia.so.${PV} ${D}${libdir}/libGLX_nvidia.so.0
 
+    #didn't know how t create the symlink, then just copied
     cp ${NVIDIA_SRC}/libglxserver_nvidia.so.${PV} ${D}${libdir}/xorg/modules/extensions/
     cp ${NVIDIA_SRC}/libglxserver_nvidia.so.${PV} ${D}${libdir}/xorg/modules/extensions/libglxserver_nvidia.so
-
+    cp ${NVIDIA_SRC}/libnvidia-allocator.so.${PV} ${D}${libdir}/gbm/nvidia-drm_gbm.so
 
 	cp ${NVIDIA_SRC}/libnvcuvid.so.${PV} ${D}${libdir}/
     ln -sf libnvcuvid.so.${PV} ${D}${libdir}/libnvcuvid.so.1
@@ -54,8 +56,10 @@ do_install_append() {
 	cp ${NVIDIA_SRC}/libnvidia-eglcore.so.${PV} ${D}${libdir}/
 
 	cp ${NVIDIA_SRC}/libnvidia-egl-gbm.so.1.1.0 ${D}${libdir}/
+    ln -sf libnvidia-egl-gbm.so.1.1.0 ${D}${libdir}/libnvidia-egl-gbm.so.1
 
 	cp ${NVIDIA_SRC}/libnvidia-egl-wayland.so.1.1.9 ${D}${libdir}/
+    ln -sf libnvidia-egl-wayland.so.1.1.9 ${D}${libdir}/libnvidia-egl-wayland.so.1
 
 	cp ${NVIDIA_SRC}/libnvidia-encode.so.${PV} ${D}${libdir}/
     ln -sf libnvidia-encode.so.${PV} ${D}${libdir}/libnvidia-encode.so.1
@@ -164,14 +168,12 @@ FILES_${PN} += " \
     ${libdir}/xorg/modules/drivers \
     ${libdir}/nvidia/wine/ \
     ${libdir}/vdpau \
+    ${libdir}/gbm \
     ${libdir}/*.so* \
-	${bindir} \
+	${bindir} \ 
     ${datadir}/glvnd/egl_vendor.d/ \
     ${datadir}/egl/egl_external_platform.d/ \
-"
-
-FILES_${PN}-doc += " \
-	${mandir} \
+    ${mandir} \
 	${datadir}/doc/nvidia \
     ${datadir}/nvidia/ \
 "
