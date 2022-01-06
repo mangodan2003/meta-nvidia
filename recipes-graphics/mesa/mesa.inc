@@ -21,6 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
            file://0001-util-format-Check-for-NEON-before-using-it.patch \
            file://0001-v3dv-account-for-64bit-time_t-on-32bit-arches.patch \
+           file://0001-gbm-Dont-pass-default-usage-flags-on-ABIs.patch \
            "
 
 SRC_URI[sha256sum] = "2b0dc2540cb192525741d00f706dbc4586349185dafc65729c7fda0800cc474d"

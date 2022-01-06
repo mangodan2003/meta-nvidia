@@ -1,0 +1,94 @@
+From 0cc65a565cb9ae52e7e20d57c3fa783e1ae4fc5f Mon Sep 17 00:00:00 2001
+From: James Jones <jajones@nvidia.com>
+Date: Fri, 19 Nov 2021 11:50:18 -0800
+Subject: [PATCH] gbm: Don't pass default usage flags on ABIs < 1
+
+Older drivers will not expect any flags from the
+GBM front-end when modifiers are in use, and will
+likely fail the allocation or handle them
+incorrectly as a result. Only specify usage flags
+when allocating from a backend with an ABI >= 1,
+as that's the ABI version that added support for
+specifying usage flags along with modifiers.
+
+Fixes: ad50b47a14e9 ("gbm: assume USE_SCANOUT in create_with_modifiers")
+Closes: https://gitlab.freedesktop.org/mesa/mesa/-/issues/5709
+Signed-off-by: James Jones <jajones@nvidia.com>
+Reviewed-by: Simon Ser <contact@emersion.fr>
+Tested-by: Olivier Fourdan <ofourdan@redhat.com>
+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/14049>
+(cherry picked from commit c2550d1b7ca8146283265ce6f4267fa2b3591946)
+---
+ .pick_status.json  |  2 +-
+ src/gbm/main/gbm.c | 32 ++++++++++++++++++++++++++++++--
+ 2 files changed, 31 insertions(+), 3 deletions(-)
+
+diff --git a/.pick_status.json b/.pick_status.json
+index d6050baa230..8a166da19b7 100644
+--- a/.pick_status.json
++++ b/.pick_status.json
+@@ -2623,7 +2623,7 @@
+         "description": "gbm: Don't pass default usage flags on ABIs < 1",
+         "nominated": true,
+         "nomination_type": 1,
+-        "resolution": 0,
++        "resolution": 1,
+         "main_sha": null,
+         "because_sha": "ad50b47a14e94751cd59ad5892ad795d508557f0"
+     },
+diff --git a/src/gbm/main/gbm.c b/src/gbm/main/gbm.c
+index 2d646e0e515..f0e650efe39 100644
+--- a/src/gbm/main/gbm.c
++++ b/src/gbm/main/gbm.c
+@@ -497,8 +497,22 @@ gbm_bo_create_with_modifiers(struct gbm_device *gbm,
+                              const uint64_t *modifiers,
+                              const unsigned int count)
+ {
++   uint32_t flags = 0;
++
++   /*
++    * ABI version 1 added the modifiers+flags capability. Backends from
++    * prior versions may fail if "unknown" flags are provided along with
++    * modifiers, but assume scanout is required when modifiers are used.
++    * Newer backends expect scanout to be explicitly requested if required,
++    * but applications using this older interface rely on the older implied
++    * requirement, so that behavior must be preserved.
++    */
++   if (gbm->v0.backend_version >= 1) {
++      flags |= GBM_BO_USE_SCANOUT;
++   }
++
+    return gbm_bo_create_with_modifiers2(gbm, width, height, format, modifiers,
+-                                        count, GBM_BO_USE_SCANOUT);
++                                        count, flags);
+ }
+ 
+ GBM_EXPORT struct gbm_bo *
+@@ -648,9 +662,23 @@ gbm_surface_create_with_modifiers(struct gbm_device *gbm,
+                                   const uint64_t *modifiers,
+                                   const unsigned int count)
+ {
++   uint32_t flags = 0;
++
++   /*
++    * ABI version 1 added the modifiers+flags capability. Backends from
++    * prior versions may fail if "unknown" flags are provided along with
++    * modifiers, but assume scanout is required when modifiers are used.
++    * Newer backends expect scanout to be explicitly requested if required,
++    * but applications using this older interface rely on the older implied
++    * requirement, so that behavior must be preserved.
++    */
++   if (gbm->v0.backend_version >= 1) {
++      flags |= GBM_BO_USE_SCANOUT;
++   }
++
+    return gbm_surface_create_with_modifiers2(gbm, width, height, format,
+                                              modifiers, count,
+-                                             GBM_BO_USE_SCANOUT);
++                                             flags);
+ }
+ 
+ GBM_EXPORT struct gbm_surface *
+-- 
+GitLab
+
