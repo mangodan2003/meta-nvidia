@@ -1,0 +1,1 @@
+COMPATIBLE_MACHINE = "(tegra|intel-corei7-64)"
