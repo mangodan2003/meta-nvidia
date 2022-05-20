@@ -1,7 +1,7 @@
 # Jesus fuck, this is complicated.
 # Read this first: https://devtalk.nvidia.com/default/topic/915640/unix-graphics-announcements-and-news/multiple-glx-client-libraries-in-the-nvidia-linux-driver-installer-package/
 
-do_install_append() {
+do_install:append() {
     mkdir -p ${D}${libdir}/vdpau
     mkdir -p ${D}${libdir}/gbm
     mkdir -p ${D}${libdir}/xorg/modules/extensions/
@@ -163,7 +163,7 @@ do_install_append() {
 
 do_make_scripts[noexec] = "1"
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${libdir}/xorg/modules/extensions/ \
     ${libdir}/xorg/modules/drivers \
     ${libdir}/nvidia/wine/ \
@@ -179,11 +179,11 @@ FILES_${PN} += " \
     /lib64 \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     libvdpau \
 "
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 INHIBIT_PACKAGE_STRIP = "1"
-INSANE_SKIP_${PN}_append = "ldflags already-stripped"
-INSANE_SKIP_libgl-nvidia_append = "ldflags"
+INSANE_SKIP:${PN}:append = "ldflags already-stripped"
+INSANE_SKIP:libgl-nvidia:append = "ldflags"

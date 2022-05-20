@@ -6,7 +6,7 @@ NVIDIA_ARCHIVE_NAME = "NVIDIA-Linux-${TARGET_ARCH}-${PV}"
 NVIDIA_SRC = "${WORKDIR}/${NVIDIA_ARCHIVE_NAME}"
 
 SRC_URI = " \
-	https://us.download.nvidia.com/XFree86/Linux-${TARGET_ARCH}/${PV}/${NVIDIA_ARCHIVE_NAME}.run \
+	https://uk.download.nvidia.com/XFree86/Linux-${TARGET_ARCH}/${PV}/${NVIDIA_ARCHIVE_NAME}.run \
 "
 
 S = "${NVIDIA_SRC}/kernel"
@@ -19,4 +19,4 @@ do_unpack() {
 
 do_make_scripts[noexec] = "1"
 
-RDEPENDS_${PN} += " libglapi"
+RDEPENDS:${PN} += " libglapi"

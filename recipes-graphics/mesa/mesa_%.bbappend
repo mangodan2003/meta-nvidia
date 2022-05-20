@@ -1,24 +1,24 @@
-EXTRA_OEMESON_append_intel-corei7-64 = " -Dglvnd=true"
-DEPENDS_append_intel-corei7-64 = " libglvnd"
+EXTRA_OEMESON:append_intel-corei7-64 = " -Dglvnd=true"
+DEPENDS:append_intel-corei7-64 = " libglvnd"
 PROVIDES_intel-corei7-64 = "virtual/mesa virtual/libgbm"
 
-# Workaround for the do_install_append() present in the OE-Core recipe
-do_install_prepend_intel-corei7-64() {
+# Workaround for the do_install:append() present in the OE-Core recipe
+do_install:prepend_intel-corei7-64() {
     install -d ${D}${includedir}/EGL
     touch ${D}${includedir}/EGL/eglplatform.h
 }
 
-do_install_append_intel-corei7-64() {
+do_install:append_intel-corei7-64() {
     rm -rf ${D}${includedir}/EGL
 }
 
-FILES_libegl-mesa_append_intel-corei7-64 = " ${libdir}/libEGL_mesa.so.* ${datadir}/glvnd"
-FILES_libegl-mesa-dev_append_intel-corei7-64 = " ${libdir}/libEGL_mesa.so"
-FILES_libgl-mesa_append_intel-corei7-64 = " ${libdir}/libGLX_mesa.so.*"
-FILES_libgl-mesa-dev_append_intel-corei7-64 = " ${libdir}/libGLX_mesa.so"
+FILES:libegl-mesa:append_intel-corei7-64 = " ${libdir}/libEGL_mesa.so.* ${datadir}/glvnd"
+FILES:libegl-mesa-dev:append_intel-corei7-64 = " ${libdir}/libEGL_mesa.so"
+FILES:libgl-mesa:append_intel-corei7-64 = " ${libdir}/libGLX_mesa.so.*"
+FILES:libgl-mesa-dev:append_intel-corei7-64 = " ${libdir}/libGLX_mesa.so"
 
-DRIDRIVERS_remove_x86_class-target = ",r100,r200,nouveau,i965,i915"
-DRIDRIVERS_remove_x86-64_class-target = ",r100,r200,nouveau,i965,i915"
+DRIDRIVERS:remove:x86:class-target = ",r100,r200,nouveau,i965,i915"
+DRIDRIVERS:remove:x86-64:class-target = ",r100,r200,nouveau,i965,i915"
 
 python __anonymous() {
     if "intel-corei7-64" not in d.getVar('OVERRIDES').split(':'):
@@ -32,13 +32,13 @@ python __anonymous() {
         if not p[0] in pkgconfig:
             continue
         fullp = p[1] + "-mesa"
-        d.delVar("RREPLACES_" + fullp)
-        d.delVar("RPROVIDES_" + fullp)
-        d.delVar("RCONFLICTS_" + fullp)
+        d.delVar("RREPLACES:" + fullp)
+        d.delVar("RPROVIDES:" + fullp)
+        d.delVar("RCONFLICTS:" + fullp)
 
         # For -dev, the first element is both the Debian and original name
         fullp += "-dev"
-        d.delVar("RREPLACES_" + fullp)
-        d.delVar("RPROVIDES_" + fullp)
-        d.delVar("RCONFLICTS_" + fullp)
+        d.delVar("RREPLACES:" + fullp)
+        d.delVar("RPROVIDES:" + fullp)
+        d.delVar("RCONFLICTS:" + fullp)
 }
